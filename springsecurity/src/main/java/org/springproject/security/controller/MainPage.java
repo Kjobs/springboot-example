@@ -1,12 +1,18 @@
 package org.springproject.security.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springproject.security.service.dto.LoginInputDTO;
 
-@RestController
-@RequestMapping(value = "")
+@Controller
 public class MainPage {
+
+    @RequestMapping("")
+    public String index() {
+        return "index";
+    }
 
     @GetMapping(value = "test")
     public String test() {
@@ -15,6 +21,11 @@ public class MainPage {
 
     @GetMapping(value = "login")
     public String login() {
+        return "login";
+    }
+
+    @PostMapping(value = "login")
+    public String login(LoginInputDTO loginInputDTO) {
         return "success";
     }
 }

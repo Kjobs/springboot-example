@@ -22,4 +22,6 @@ public class SysUser {
     @NotNull
     @Column(name = "password")
     private String password;
+
+    private String role;
 }
