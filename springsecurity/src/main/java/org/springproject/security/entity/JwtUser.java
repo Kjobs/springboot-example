@@ -1,32 +1,51 @@
 package org.springproject.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class JwtUser implements UserDetails {
+
+    @Id
     private Integer id;
+
     private String username;
+
+    @JsonIgnore
     private String password;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser() {
     }
 
-    // 写一个能直接使用user创建jwtUser的构造器
-    public JwtUser(SysUser user) {
-        this.id = user.getUserId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
+    /**
+     * 用user创建jwtUser的构造器
+     */
+    public JwtUser(Integer id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
     }
 
-    // 获取权限信息
+    /**
+     * 获取权限信息
+     * @return
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        String username = this.getUsername();
+        if (username != null) {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(username);
+            authorities.add(authority);
+        }
         return authorities;
     }
 
@@ -40,38 +59,38 @@ public class JwtUser implements UserDetails {
         return username;
     }
 
-    // 账号是否未过期，默认是false，记得要改一下
+    /**
+     * 账户是否过期，过期的用户无法认证
+     */
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // 账号是否未锁定，默认是false，记得也要改一下
+    /**
+     * 账户是否被锁定，锁定无法验证
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // 账号凭证是否未过期，默认是false，记得还要改一下
+    /**
+     * 指定是否已过期的用户凭证（密码），过期无法认证
+     */
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    // 这个有点抽象不会翻译，默认也是false，记得改一下
+    /**
+     * 是否可以认证，禁用的用户无法认证
+     */
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    // 我自己重写打印下信息看的
-    @Override
-    public String toString() {
-        return "JwtUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorities=" + authorities +
-                '}';
     }
 }

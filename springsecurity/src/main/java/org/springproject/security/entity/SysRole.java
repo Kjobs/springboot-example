@@ -2,10 +2,10 @@ package org.springproject.security.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -13,9 +13,8 @@ import javax.persistence.Table;
 public class SysRole {
 
     @Id
-    @Column(name = "role_id")
-    private Integer roleId;
+    private Integer id;
 
-    @Column(name = "role_code")
-    private String roleCode;
+    @NotNull
+    private String code;
 }
