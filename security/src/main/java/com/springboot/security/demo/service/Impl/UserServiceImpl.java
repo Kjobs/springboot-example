@@ -72,20 +72,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (containUserRole(user, userDTO.getRoleCode())) {
                 throw new RuntimeException("用户角色已存在！");
             }
-            if (!containRole(userDTO.getRoleCode())) {
-                SysRole role = new SysRole();
-                role.setCode(userDTO.getRoleCode());
-                roleRepository.save(role);
-            }
-            SysUserRole ur = new SysUserRole();
-            ur.setSysRoleId(roleRepository.findByCode(userDTO.getRoleCode()).getId());
-            ur.setSysUserId(user.getId());
-            userRoleRepository.save(ur);
         }
-        user = new SysUser();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-        userRepository.save(user);
+        if (!containRole(userDTO.getRoleCode())) {
+            SysRole role = new SysRole();
+            role.setCode(userDTO.getRoleCode());
+            roleRepository.save(role);
+        }
+
+        // 如果不存在用户，则保存用户
+        if (user == null) {
+            user = new SysUser();
+            user.setUsername(userDTO.getUsername());
+            user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+            userRepository.save(user);
+        }
+
+        // 保存用户关联角色
+        SysUserRole ur = new SysUserRole();
+        ur.setSysRoleId(roleRepository.findByCode(userDTO.getRoleCode()).getId());
+        ur.setSysUserId(user.getId());
+        userRoleRepository.save(ur);
     }
 
     @Override
