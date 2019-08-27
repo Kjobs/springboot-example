@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String token = jwtUtils.generateToken(userDetails);
         LoginOutputDTO outputDTO = new LoginOutputDTO();
         outputDTO.setHeaderName(JwtConfig.TOKEN_HEADER);
-        outputDTO.setToken(token);
+        outputDTO.setToken(JwtConfig.TOKEN_BEARER + token);
         outputDTO.setUser(user);
         return outputDTO;
     }

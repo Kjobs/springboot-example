@@ -13,7 +13,7 @@ public class JwtConfig {
     /**
      * 过期时间
      */
-    public final static Long TOKEN_EXPIRATION = 3600L;
+    public final static Integer TOKEN_EXPIRATION = 604800;
 
     /**
      * 头部标识
