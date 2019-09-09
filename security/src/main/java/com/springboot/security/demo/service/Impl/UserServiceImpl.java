@@ -137,9 +137,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     private Collection<GrantedAuthority> getAuthorities(SysUser user) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        user.getSysRoles().forEach(role -> {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getCode()));
-        });
+        user.getSysRoles().forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getCode())));
         return grantedAuthorities;
     }
 

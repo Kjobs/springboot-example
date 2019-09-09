@@ -35,7 +35,7 @@ public class LoginController {
         return "test";
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "增加用户")
     @PostMapping("/user")
     public String addUser(@RequestBody UserDTO userDTO) {

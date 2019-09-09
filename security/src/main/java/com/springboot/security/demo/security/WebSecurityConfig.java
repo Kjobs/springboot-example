@@ -57,11 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 .authorizeRequests()
-                // 排除首页
+                //排除首页
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 // 排除登录接口
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
                 // Swagger-api
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
