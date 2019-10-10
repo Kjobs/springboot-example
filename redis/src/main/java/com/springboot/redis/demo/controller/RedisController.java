@@ -57,6 +57,8 @@ public class RedisController {
         HashOperations<String, String, String> operations = redisTemplate.opsForHash();
         operations.put("hashValues", "hk1", "hv1");
         operations.put("hashValues", "hk2", "hv2");
+        result.append("获取指定key的value:\n");
+        result.append(operations.get("hashValues", "hk1"));
         result.append("获取hk的Set集合:\n");
         result.append(operations.keys("hashValues")).append("\n");
         result.append("获取hv的List集合:\n");
