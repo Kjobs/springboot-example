@@ -2,6 +2,7 @@ package com.springboot.redis.demo.controller;
 
 import com.springboot.redis.demo.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -21,7 +22,7 @@ public class RedisController {
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @GetMapping(value = "testString")
     public String testString() {
@@ -47,6 +48,21 @@ public class RedisController {
         result.append("过期后：\n");
         result.append("model=").append(operations.get("model")).append("\n");
         result.append("model.timeout=").append(operations.get("model.timeout")).append("\n");
+        return result.toString();
+    }
+
+    @GetMapping(value = "testHashOptions")
+    public String testHashOptions() {
+        StringBuilder result = new StringBuilder();
+        HashOperations<String, String, String> operations = redisTemplate.opsForHash();
+        operations.put("hashValues", "hk1", "hv1");
+        operations.put("hashValues", "hk2", "hv2");
+        result.append("获取hk的Set集合:\n");
+        result.append(operations.keys("hashValues")).append("\n");
+        result.append("获取hv的List集合:\n");
+        result.append(operations.values("hashValues")).append("\n");
+        result.append("获取hashValues的键值对:\n");
+        result.append(operations.entries("hashValues")).append("\n");
         return result.toString();
     }
 }
