@@ -3,10 +3,9 @@ package com.springboot.redis.demo.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.redis.demo.model.TestModel;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.cache.jcache.config.JCacheConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -21,29 +20,10 @@ import org.springframework.data.redis.serializer.*;
  */
 @Configuration
 @EnableCaching
-public class RedisConfig extends JCacheConfigurerSupport {
-
-    /**
-     * 自定义缓存key的生成策略。默认的生成策略是看不懂的(乱码内容) 通过Spring 的依赖注入特性进行自定义的配置注入
-     * 并且此类是一个配置类，可以更多程度的自定义配置
-     * @return
-     */
-    @Override
-    @Bean
-    public KeyGenerator keyGenerator() {
-        return (o, method, objects) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(o.getClass().getName());
-            sb.append(method.getName());
-            for (Object obj : objects) {
-                sb.append(obj.toString());
-            }
-            return sb.toString();
-        };
-    }
+public class RedisConfig {
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> objectRedisTemplate(RedisConnectionFactory redisConnectionFactory)
     {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
@@ -59,6 +39,19 @@ public class RedisConfig extends JCacheConfigurerSupport {
     }
 
     /**
+     * 针对特定对象实现redis缓存，value值存储为Json格式
+     */
+    @Bean
+    public RedisTemplate<Object, TestModel> modelRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, TestModel> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        Jackson2JsonRedisSerializer<TestModel> serializer = new Jackson2JsonRedisSerializer<>(TestModel.class);
+        template.setDefaultSerializer(serializer);
+        return template;
+    }
+
+    /**
+     * CacheManager 缓存管理器，管理各种缓存（cache）组件
      * 自定义cacheManager缓存管理器
      */
     @Bean

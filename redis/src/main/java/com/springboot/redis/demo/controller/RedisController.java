@@ -2,6 +2,7 @@ package com.springboot.redis.demo.controller;
 
 import com.springboot.redis.demo.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,6 +25,7 @@ public class RedisController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Cacheable
     @GetMapping(value = "testString")
     public String testString() {
         stringRedisTemplate.opsForValue().set("name", "kobs");
