@@ -1,6 +1,7 @@
 package com.springboot.aop.controller;
 
 import com.springboot.aop.entity.TestModel;
+import com.springboot.aop.log.CustomLogAnnotation;
 import com.springboot.aop.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class DataController {
         return modelService.getModels();
     }
 
+    @CustomLogAnnotation(index = 0)
     @PostMapping(value = "show")
     public void showModel(TestModel model) {
         modelService.printModel(model);

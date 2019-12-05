@@ -8,9 +8,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-
-import com.alibaba.fastjson.JSON;
-
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 
@@ -24,7 +21,7 @@ import java.util.Arrays;
 public class CustomResponseBodyAdvice  implements ResponseBodyAdvice {
 
     /**
-     * 自定义添加需要拦截的注解
+     * 需要拦截的注解
      */
     private static final Class[] ANNOTATIONS = {
             RequestMapping.class,
@@ -60,20 +57,12 @@ public class CustomResponseBodyAdvice  implements ResponseBodyAdvice {
      */
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        serverHttpResponse.getHeaders().setContentType(mediaType);
+        serverHttpResponse.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         serverHttpResponse.setStatusCode(HttpStatus.OK);
-        if (o instanceof CommonResponse) {
+        if (o instanceof CommonReturnResponse) {
             return o;
         } else {
-            CommonResponse response = new CommonResponse();
-            response.setCode(HttpStatus.OK.value());
-            response.setData(o);
-            response.setMsg("Request success!");
-            response.setSuccess(true);
-            if (o instanceof String) {
-                return JSON.toJSONString(response);
-            }
-            return response;
+            return CommonReturnResponse.success(o);
         }
     }
 }
