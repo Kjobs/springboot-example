@@ -35,14 +35,14 @@ public class RedisController {
     @GetMapping(value = "testObject")
     public String testObject() {
         StringBuilder result = new StringBuilder();
-        TestModel model = new TestModel("1","redis");
+        TestModel model = new TestModel("1", "redis");
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         operations.set("model", model);
         operations.set("model.timeout", model, 1, TimeUnit.SECONDS);
         result.append("过期前：\n");
         result.append("model=").append(operations.get("model")).append("\n");
         result.append("model.timeout=").append(operations.get("model.timeout")).append("\n");
-        try{
+        try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

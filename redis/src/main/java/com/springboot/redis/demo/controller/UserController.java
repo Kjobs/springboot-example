@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping(value = "")
-    public void updateOne(Integer id, String name){
+    public void updateOne(Integer id, String name) {
         redisUserService.updateOne(id, name);
     }
 

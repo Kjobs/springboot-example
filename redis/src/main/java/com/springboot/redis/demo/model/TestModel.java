@@ -15,7 +15,9 @@ public class TestModel implements Serializable {
     private String code;
     private String name;
 
-    /** jackson的反序列化需要无参构造函数 */
+    /**
+     * jackson的反序列化需要无参构造函数
+     */
     public TestModel() {
 
     }

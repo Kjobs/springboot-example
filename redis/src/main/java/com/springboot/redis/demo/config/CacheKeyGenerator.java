@@ -14,6 +14,7 @@ public class CacheKeyGenerator implements KeyGenerator {
     /**
      * 自定义缓存key的生成策略。默认的生成策略是看不懂的(乱码内容) 通过Spring 的依赖注入特性进行自定义的配置注入
      * 并且此类是一个配置类，可以更多程度的自定义配置
+     *
      * @return
      */
     @Override
@@ -21,7 +22,7 @@ public class CacheKeyGenerator implements KeyGenerator {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(target.getClass().getName()).append("::");
         stringBuilder.append(method.getName()).append('.');
-        for(Object obj : params) {
+        for (Object obj : params) {
             stringBuilder.append(obj.toString()).append('-');
         }
         return stringBuilder.toString();

@@ -16,10 +16,11 @@ import org.springframework.stereotype.Service;
 public class RedisUserService {
 
     @Autowired
-    RedisUserRepository redisUserRepository;
+    private RedisUserRepository redisUserRepository;
 
     /**
      * 获取RedisUser对象，若无缓存就去数据库查询，有则直接从缓存中读取
+     *
      * @param id 用户id
      * @return RedisUser对象
      */

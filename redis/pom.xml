@@ -56,17 +56,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <!-- 客户端默认是lettuce，若需要排除lettuce包，使用jedis代替-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>io.lettuce</groupId>-->
-<!--                    <artifactId>lettuce-core</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-        <!-- jedis -->
-<!--        <dependency>-->
-<!--            <groupId>redis.clients</groupId>-->
-<!--            <artifactId>jedis</artifactId>-->
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>io.lettuce</groupId>-->
+            <!--                    <artifactId>lettuce-core</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
+            <!--        </dependency>-->
+            <!-- jedis -->
+            <!--        <dependency>-->
+            <!--            <groupId>redis.clients</groupId>-->
+            <!--            <artifactId>jedis</artifactId>-->
         </dependency>
 
         <!-- lettuce pool 缓存连接池 -->
