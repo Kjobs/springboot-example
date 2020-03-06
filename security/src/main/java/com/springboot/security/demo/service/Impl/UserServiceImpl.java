@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     public Boolean containRole(String roleCode) {
         SysRole sysRole = roleRepository.findByCode(roleCode);
-        if(sysRole != null) return true;
+        if (sysRole != null) return true;
         return false;
     }
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void save(UserDTO userDTO) {
         SysUser user = userRepository.findByUsername(userDTO.getUsername());
-        if(user != null) {
+        if (user != null) {
             if (containUserRole(user, userDTO.getRoleCode())) {
                 throw new RuntimeException("用户角色已存在！");
             }
@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * 登录认证
+     *
      * @param inputDTO 用户的实体封装
      * @return LoginOutputDTO 带有token的实体封装
      */
@@ -114,10 +115,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Objects.requireNonNull(inputDTO.getUsername());
         Objects.requireNonNull(inputDTO.getPassword());
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(inputDTO.getUsername(),inputDTO.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(inputDTO.getUsername(), inputDTO.getPassword()));
         } catch (DisabledException e) {
             throw new RuntimeException("用户已被禁用！");
-        } catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             throw new RuntimeException("用户名或密码错误！");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(inputDTO.getUsername());
@@ -132,6 +133,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * 获取用户权限
+     *
      * @param user 用户
      * @return 权限信息
      */
@@ -147,7 +149,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         SysUser user = userRepository.findByUsername(s);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new User(user.getUsername(), user.getPassword(), getAuthorities(user));

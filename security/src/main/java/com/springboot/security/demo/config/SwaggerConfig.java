@@ -71,16 +71,18 @@ public class SwaggerConfig implements ApplicationContextAware {
 
     /**
      * 配置认证模式
+     *
      * @return apiKeyList
      */
     private List<ApiKey> securitySchemes() {
-        List<ApiKey> apiKeyList =new ArrayList<>();
+        List<ApiKey> apiKeyList = new ArrayList<>();
         apiKeyList.add(new ApiKey(JwtConfig.TOKEN_HEADER, JwtConfig.TOKEN_HEADER, "header"));
         return apiKeyList;
     }
 
     /**
      * 配置认证上下文
+     *
      * @return securityContexts
      */
     private List<SecurityContext> securityContexts() {
