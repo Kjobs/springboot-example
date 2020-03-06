@@ -19,6 +19,7 @@ public class ModelService {
     }
 
     public TestModel getModel() {
+        System.out.println("model--" + Thread.currentThread().getName());
         TestModel tm = new TestModel();
         tm.setNumber(123);
         tm.setString("abc");

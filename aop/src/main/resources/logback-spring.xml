@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="log_path" value="${log_path}" defaultValue="D:/data/log"/>
+
+<!--    &lt;!&ndash; debug级别日志输出 &ndash;&gt;-->
+<!--    <appender name="LOGFILE-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        &lt;!&ndash; 控制日志级别过滤 &ndash;&gt;-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            &lt;!&ndash; 设置日志级别 &ndash;&gt;-->
+<!--            <level>DEBUG</level>-->
+<!--            &lt;!&ndash; 配置符合过滤条件的操作 &ndash;&gt;-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            &lt;!&ndash; 配置不符合过滤条件的操作 &ndash;&gt;-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${log_path}/%d{yyyy-MM-dd}_i%.log</fileNamePattern>-->
+<!--            <maxFileSize>10MB</maxFileSize>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
+
+    <!-- error级别日志输出 -->
+    <appender name="LOGFILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/%d{yyyy-MM-dd}.i%.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="error,debug">
+<!--        <appender-ref ref="LOGFILE-DEBUG"/>-->
+        <appender-ref ref="LOGFILE-ERROR"/>
+    </root>
+</configuration>
